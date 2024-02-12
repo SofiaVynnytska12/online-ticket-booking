@@ -3,10 +3,10 @@
 title Fetching One User Sequence Diagram
 
 actor Client
-participant "UserController" as UserController
-participant "UserService" as UserService
-participant "UserRepository" as UserRepository
-participant "UserMapper" as UserMapper
+participant UserController
+participant UserService
+participant UserRepository
+participant UserMapper
 database Database
 
 Client -> UserController: GET /users/{id}
@@ -30,6 +30,14 @@ else Invalid Id
     UserController --> Client: 400 Bad Request
 end
 
+alt User Unauthorized
+    UserController --> Client: 401 Unauthorized
+end
+
+alt Database Error
+    UserController --> Client: 500 Internal Server Error
+end
+
 Client -> UserController: GET /users?userName={userName}
 UserController -> UserService: getUserByName(userName)
 alt User Exists
@@ -49,6 +57,14 @@ alt User Exists
     end
 else Invalid UserName
     UserController --> Client: 400 Bad Request
+end
+
+alt User Unauthorized
+    UserController --> Client: 401 Unauthorized
+end
+
+alt Database Error
+    UserController --> Client: 500 Internal Server Error
 end
 
 @enduml
