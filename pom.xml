@@ -147,7 +147,7 @@
     </build>
 
     <modules>
-
-
+        <module>otb-application</module>
+        <module>otb-doc</module>
     </modules>
 </project>
