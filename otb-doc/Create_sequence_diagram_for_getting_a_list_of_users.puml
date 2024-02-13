@@ -1,0 +1,53 @@
+@startuml
+
+title Fetching Of Users
+actor Admin
+participant UserController
+participant UserService
+participant UserRepository
+participant DataBase
+participant UserMapper
+
+Admin -> UserController: GET /user/getAll/
+    UserController -> UserService: getAllUsers(sortBy, sortOrder)
+    activate UserService
+    UserService -> UserRepository: getAllUsers(sortBy, sortOrder)
+    activate UserRepository
+    UserRepository --> DataBase : Select all
+    activate DataBase
+    DataBase --> UserRepository : DB response
+    deactivate DataBase
+    UserRepository --> UserService: List<Users>
+    deactivate UserRepository
+
+    alt Users found
+        UserService -> UserMapper: toDto(users)
+        activate UserMapper
+        UserMapper --> UserService: List<UsersDto>
+        deactivate UserMapper
+        UserService --> UserController: List<UsersDto>
+        deactivate UserService
+        UserController --> Admin: List<UsersDto>
+        note right: 2xx OK - Users fetched successfully
+        else Users not found
+        UserService --> UserController: Empty list
+        deactivate UserService
+        UserController --> Admin: Empty list
+        note right: 2xx OK - No users found
+    end
+
+    alt
+        UserController --> Admin: 4xx Bad Request
+        note right: Admin provided invalid parameters
+    end
+
+    alt Server error
+        UserService --> UserController: 5xx Internal Server Error
+        note right: An unexpected error occurred
+    end
+    alt Unauthorized access
+        UserService --> UserController: 401 Unauthorized
+        note right: User cannot list users, only admin
+    end
+
+@enduml
