@@ -149,5 +149,6 @@
     <modules>
 
 
+        <module>otb-db</module>
     </modules>
 </project>
