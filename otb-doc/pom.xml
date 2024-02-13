@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright ©  IGT.
+  ~
+  ~  This software and all information contained therein is confidential and proprietary
+  ~  and shall not be duplicated, used, disclosed or disseminated in any way except as
+  ~  authorized by the applicable license agreement, without the express written permission of IGT.
+  ~  All authorized reproductions must be marked with this language.
+  -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
