@@ -1,14 +1,5 @@
 #!/bin/sh
 
-#
-# Copyright ©  IGT.
-#
-#  This software and all information contained therein is confidential and proprietary
-#  and shall not be duplicated, used, disclosed or disseminated in any way except as
-#  authorized by the applicable license agreement, without the express written permission of IGT.
-#  All authorized reproductions must be marked with this language.
-#
-
 docker pull mysql:8.3.0
 
 containerName="otb-container"
