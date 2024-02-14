@@ -1,0 +1,17 @@
+databaseChangeLog:
+  - changeSet:
+      id: shema-creation-I-add-tag-I-create-users
+      author: AleksandrMatv
+      changes:
+        - sql:
+            sql: |
+              create table users1(
+               id INT AUTO_INCREMENT PRIMARY KEY,
+               name VARCHAR(255) NOT NULL,
+               password VARCHAR(255) NOT NULL,
+               email VARCHAR(255) NOT NULL
+              )
+      tags:
+        - tag:
+            tag: v1
+      shemaName: OTB

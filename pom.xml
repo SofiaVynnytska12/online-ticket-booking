@@ -149,5 +149,6 @@
     <modules>
         <module>otb-application</module>
         <module>otb-doc</module>
+        <module>otb-db</module>
     </modules>
 </project>
