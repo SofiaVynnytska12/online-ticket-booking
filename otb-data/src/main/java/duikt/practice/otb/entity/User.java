@@ -1,6 +1,8 @@
 package duikt.practice.otb.entity;
 
 import duikt.practice.otb.entity.addition.Role;
+
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,6 +18,8 @@ import java.util.Objects;
 @Setter
 @Table(name = "users")
 @ToString
+
+
 public class User {
 
     @Id
