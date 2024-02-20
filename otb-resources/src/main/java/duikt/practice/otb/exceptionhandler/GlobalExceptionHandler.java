@@ -5,7 +5,6 @@ import duikt.practice.otb.exception.InvalidDataException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
-import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -47,8 +46,8 @@ public class GlobalExceptionHandler {
         return getErrorResponse(request, HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
 
-    @ExceptionHandler({InvalidDataException.class, PropertyReferenceException.class})
-    public ResponseEntity<ErrorResponse> handleInvalidDataException(HttpServletRequest request, RuntimeException ex) {
+    @ExceptionHandler(InvalidDataException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidDataException(HttpServletRequest request, InvalidDataException ex) {
         return getErrorResponse(request, HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 

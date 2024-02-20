@@ -9,10 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.List;
-
-import static org.springframework.data.domain.Sort.*;
-
 @Slf4j
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -43,20 +39,5 @@ public class UserServiceImpl implements UserService {
 
     private void encodeUserPassword(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-    }
-
-    @Override
-    public List<User> getAll(String sortDirection, String[] properties) {
-        List<User> users = userRepository.findAll(
-                by(getDirectionForSort(sortDirection), properties));
-        return users;
-    }
-
-    private Direction getDirectionForSort(String sortDirection) {
-        if (sortDirection.equals("+")){
-            return Direction.ASC;
-        }
-
-        return Direction.DESC;
     }
 }

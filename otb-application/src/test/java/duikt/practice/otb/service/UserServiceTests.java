@@ -1,24 +1,18 @@
 package duikt.practice.otb.service;
 
-import duikt.practice.otb.dto.UserResponse;
 import duikt.practice.otb.entity.User;
 import duikt.practice.otb.entity.addition.Role;
 import duikt.practice.otb.exception.InvalidDataException;
-import duikt.practice.otb.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ConstraintViolationException;
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,14 +24,11 @@ public class UserServiceTests {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
-    private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceTests(UserService userService, PasswordEncoder passwordEncoder,
-                            UserRepository userRepository) {
+    public UserServiceTests(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
     }
 
     @Test
@@ -80,24 +71,4 @@ public class UserServiceTests {
         assertThrows(ConstraintViolationException.class, () -> userService.registerUser(exceptionUser));
     }
 
-
-    @Test
-    public void testValidGetAll() {
-        String direction = "desc";
-        String properties = "username";
-        Sort sort = Sort.by(Sort.Direction.fromString(direction), properties);
-
-        List<User> expected = userRepository.findAll(sort);
-        List<User> actual = userService.getAll(direction, new String[]{properties});
-
-        assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testInvalidPropertyGetAll() {
-        String direction = "desc";
-        String properties = "invalid";
-        assertThrows(PropertyReferenceException.class, () ->
-                userService.getAll(direction, new String[]{properties}));
-    }
 }
