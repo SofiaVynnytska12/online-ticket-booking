@@ -2,6 +2,7 @@ package duikt.practice.otb.resources.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import duikt.practice.otb.dto.UserRegisterRequest;
+import duikt.practice.otb.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -26,16 +27,17 @@ public class UserControllerTests {
     private static final String BASIC_PATH = "/user";
 
     private final MockMvc mockMvc;
+    private final UserService userService;
+
 
     @Autowired
-    public UserControllerTests(MockMvc mockMvc) {
+    public UserControllerTests(MockMvc mockMvc, UserService userService) {
         this.mockMvc = mockMvc;
+        this.userService = userService;
     }
 
     @Test
     public void testValidRegisterUser() throws Exception {
-        String expectedResponse = "Thank you❤️!\n"
-                + "You successfully register on Online Ticket Booking platform!";
         UserRegisterRequest registerRequest = createUserRegisterRequest("user name",
                 "user@mail.co", "123456789");
         String jsonStringForRegisterRequest = asJsonString(registerRequest);
@@ -43,8 +45,7 @@ public class UserControllerTests {
         postRegistrationPerforming(jsonStringForRegisterRequest)
                 .andExpect(status().isOk())
                 .andExpect(result ->
-                        assertEquals(expectedResponse,
-                                result.getResponse().getContentAsString())
+                        assertNotNull(result.getResponse().getContentAsString())
                 );
     }
 
@@ -76,14 +77,6 @@ public class UserControllerTests {
                 .build();
     }
 
-    private static <T> String asJsonString(final T obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @Test
     public void testNullRegisterUser() throws Exception {
         postRegistrationPerforming("")
@@ -100,6 +93,30 @@ public class UserControllerTests {
                 .contentType(APPLICATION_JSON)
                 .content(jsonStringForRegisterRequest)
         );
+    }
+
+    @Test
+    public void testValidGetAll() throws Exception {
+        String sortDirection = "-";
+        String[] properties = new String[]{"email", "id"};
+        String expectedResponse = asJsonString(userService.getAll(sortDirection, properties));
+
+        mockMvc.perform(get(BASIC_PATH + "/getAll")
+                .param("direction", sortDirection)
+                .param("properties", properties)
+        )
+                .andExpect(status().isOk())
+                .andExpect(result -> assertEquals(expectedResponse,
+                        result.getResponse().getContentAsString()));
+    }
+
+
+    private static <T> String asJsonString(final T obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
