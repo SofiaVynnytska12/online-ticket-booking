@@ -16,6 +16,11 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -85,4 +90,24 @@ public class UserController {
 
         return ResponseEntity.ok(userResponses);
     }
-}
+    @GetMapping("/whoamI")
+    @Operation(summary = "Get whoamI")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Fetches all users from the system",
+                    content = @Content(mediaType = "application/json",
+                            array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))),
+            @ApiResponse(responseCode = "403", description = "ForbiddenError",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "404", description = "NotFoundError",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "InternalServerError",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))),
+    })
+    public String whoAmI() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            return "Role: " + authentication.getAuthorities().iterator().next().getAuthority();
+        }
+    }

@@ -11,12 +11,16 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @Transactional
 @AutoConfigureMockMvc
@@ -34,6 +38,24 @@ public class UserControllerTests {
     public UserControllerTests(MockMvc mockMvc, UserService userService) {
         this.mockMvc = mockMvc;
         this.userService = userService;
+    }
+
+    @Test
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    public void testGetUserRole_Admin() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(BASIC_PATH + "/whoamI")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Role: ROLE_ADMIN"));
+    }
+
+    @Test
+    @WithMockUser(username = "user", roles = {"USER"})
+    public void testGetUserRole_User() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get(BASIC_PATH + "/whoamI")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string("Role: ROLE_USER"));
     }
 
     @Test

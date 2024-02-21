@@ -14,14 +14,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-
-
 import static org.springframework.security.config.Customizer.withDefaults;
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = "duikt.practice.otb")
 public class SpringSecurityConfiguration{
-        @Bean
+    @Bean
         public AuthenticationManager authenticationManager(AuthenticationManagerBuilder builder,
                                                            UserDetailsService userDetailsService,
                                                            PasswordEncoder passwordEncoder) throws Exception {
@@ -50,17 +48,17 @@ public class SpringSecurityConfiguration{
 
         @Bean
         public WebSecurityCustomizer ignoreEndpointCustomizer () {
-            return (web) -> web.ignoring().antMatchers("/**");
+            return (web) -> web.ignoring().antMatchers("");
         }
 
         @Bean
         public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
             http
-                    .authorizeRequests(authorizeRequests ->
-                            authorizeRequests
-                                    .antMatchers("/admin/**").hasRole("ADMIN") // Example: restrict /admin/** to users with role ADMIN
-                                    .anyRequest().authenticated()
-                        )
+                    .csrf().disable()
+                    .authorizeHttpRequests(authz -> authz
+                            .antMatchers("/whoami")
+                            .authenticated()
+                    )
                     .httpBasic(withDefaults());
 
             return http.build();
