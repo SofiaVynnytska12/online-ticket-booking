@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 import static org.springframework.data.domain.Sort.*;
@@ -59,4 +60,20 @@ public class UserServiceImpl implements UserService {
 
         return Direction.DESC;
     }
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        if (name == null || name.trim().isEmpty()){
+            throw new IllegalArgumentException("incorrect name");
+        }
+        return userRepository.findByUsername(name)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+    }
+
+
 }

@@ -7,6 +7,8 @@ import duikt.practice.otb.exception.InvalidDataException;
 import duikt.practice.otb.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
@@ -16,9 +18,12 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -99,5 +104,54 @@ public class UserServiceTests {
         String properties = "invalid";
         assertThrows(PropertyReferenceException.class, () ->
                 userService.getAll(direction, new String[]{properties}));
+    }
+    @Test
+    public void testValidGetUserById() {
+        User expected = new User();
+        expected.setUsername("username");
+        expected.setEmail("user@mail.co");
+        expected.setPassword("password");
+        expected = userService.registerUser(expected);
+
+        User actual = userService.getUserById(expected.getId());
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testValidGetUserByName() {
+        User expected = new User();
+        expected.setUsername("username");
+        expected.setEmail("user@mail.co");
+        expected.setPassword("password");
+        expected = userService.registerUser(expected);
+
+        User actual = userService.getUserByName("username");
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testInvalidGetUserById() {
+        Long userId = -1L;
+        assertThrows(EntityNotFoundException.class, () ->
+                userService.getUserById(userId));
+    }
+
+    @Test
+    public void testInvalidGetUserByName() {
+        String userName = "InvalidName";
+        assertThrows(EntityNotFoundException.class, () ->
+                userService.getUserByName(userName));
+    }
+
+    @ParameterizedTest
+    @MethodSource("emptyAndNullArguments")
+    public void testIllegalArgumentException(String invalidName) {
+        assertThrows(IllegalArgumentException.class, () ->
+                userService.getUserByName(invalidName));
+    }
+    private static Stream<String> emptyAndNullArguments() {
+        return Stream.of("", null);
     }
 }

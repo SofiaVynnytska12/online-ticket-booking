@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
@@ -42,6 +43,11 @@ public class GlobalExceptionHandler {
         return getErrorResponse(request, HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(HttpServletRequest request, EntityNotFoundException ex) {
+        return getErrorResponse(request, HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(HttpServletRequest request, BadCredentialsException ex) {
         return getErrorResponse(request, HttpStatus.UNAUTHORIZED, ex.getMessage());
@@ -66,9 +72,7 @@ public class GlobalExceptionHandler {
                 message,
                 request.getRequestURL().toString()
         );
-        if (httpStatus.is5xxServerError()) {
-            return ResponseEntity.internalServerError().body(errorResponse);
-        }
-        return ResponseEntity.badRequest().body(errorResponse);
+
+        return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 }
