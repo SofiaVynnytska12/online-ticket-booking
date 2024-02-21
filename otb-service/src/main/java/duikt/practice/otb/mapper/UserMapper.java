@@ -4,6 +4,7 @@ import duikt.practice.otb.dto.UserRegisterRequest;
 import duikt.practice.otb.dto.UserResponse;
 import duikt.practice.otb.entity.User;
 import org.mapstruct.Mapper;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
@@ -11,4 +12,6 @@ public interface UserMapper {
     User getEntityFromUserRegisterRequest(UserRegisterRequest registerRequest);
 
     UserResponse getUserResponseFromEntity(User user);
+
+    UserDetails toUserDetails(User user);
 }
