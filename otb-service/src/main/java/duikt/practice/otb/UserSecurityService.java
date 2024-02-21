@@ -12,7 +12,6 @@
     @Service
     @AllArgsConstructor
     public class UserSecurityService implements UserDetailsService {
-
          private UserRepository userRepository;
          private UserMapper userMapper;
 

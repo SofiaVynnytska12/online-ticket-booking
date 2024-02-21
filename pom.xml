@@ -35,7 +35,7 @@
         <h2.version>2.1.214</h2.version>
         <swagger.version>2.2.20</swagger.version>
         <springdoc.version>1.6.13</springdoc.version>
-
+        <spring.security.test.version>5.5.0</spring.security.test.version>
         <!-- Code settings -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
@@ -166,5 +166,4 @@
         <module>otb-service</module>
         <module>otb-resources</module>
     </modules>
-
 </project>
