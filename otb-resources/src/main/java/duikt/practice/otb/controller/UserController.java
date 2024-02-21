@@ -7,11 +7,14 @@ import duikt.practice.otb.entity.User;
 import duikt.practice.otb.mapper.UserMapper;
 import duikt.practice.otb.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +25,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static java.util.stream.Collectors.*;
-
+@SecurityScheme(
+        name = "basicAuth",
+        type = SecuritySchemeType.HTTP,
+        scheme = "basic"
+)
+@SecurityRequirement(name = "basicAuth")
 @Slf4j
 @RestController
 @AllArgsConstructor
