@@ -13,19 +13,19 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
-            <version>5.5.0</version>
+            <version>${spring.security.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
-            <version>5.5.0</version>
+            <version>${spring.security.version}</version>
         </dependency>
+
         <dependency>
             <groupId>duikt.practice.otb</groupId>
             <artifactId>otb-service</artifactId>
-            <version>1.0.0.1-SNAPSHOT</version>
+            <version>${duikt.practice.otb.version}</version>
         </dependency>
-
-
-    </dependencies> <!-- Packaging type for otb-context module -->
+    </dependencies>
 </project>

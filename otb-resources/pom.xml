@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>duikt.practice.otb</groupId>
-            <artifactId>otb-service</artifactId>
+            <artifactId>otb-context</artifactId>
             <version>${duikt.practice.otb.version}</version>
         </dependency>
 

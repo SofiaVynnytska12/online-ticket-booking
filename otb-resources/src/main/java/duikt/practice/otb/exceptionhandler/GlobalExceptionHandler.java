@@ -1,7 +1,10 @@
 package duikt.practice.otb.exceptionhandler;
 
 import duikt.practice.otb.dto.ErrorResponse;
+import duikt.practice.otb.exception.CustomLoginException;
+import duikt.practice.otb.exception.IncorrectPasswordException;
 import duikt.practice.otb.exception.InvalidDataException;
+import duikt.practice.otb.exception.NoRightsException;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
@@ -9,11 +12,13 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
@@ -42,7 +47,19 @@ public class GlobalExceptionHandler {
         return getErrorResponse(request, HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNotFoundException(HttpServletRequest request, EntityNotFoundException ex) {
+        return getErrorResponse(request, HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InternalAuthenticationServiceException.class)
+    public ResponseEntity<ErrorResponse> handleInternalAuthenticationServiceException(HttpServletRequest request,
+                                                                                      InternalAuthenticationServiceException ex) {
+        return getErrorResponse(request, HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler({BadCredentialsException.class, NoRightsException.class,
+            CustomLoginException.class, IncorrectPasswordException.class})
     public ResponseEntity<ErrorResponse> handleBadCredentialsException(HttpServletRequest request, BadCredentialsException ex) {
         return getErrorResponse(request, HttpStatus.UNAUTHORIZED, ex.getMessage());
     }
@@ -69,6 +86,6 @@ public class GlobalExceptionHandler {
         if (httpStatus.is5xxServerError()) {
             return ResponseEntity.internalServerError().body(errorResponse);
         }
-        return ResponseEntity.badRequest().body(errorResponse);
+        return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 }
