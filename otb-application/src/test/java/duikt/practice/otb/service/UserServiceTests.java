@@ -3,6 +3,7 @@ package duikt.practice.otb.service;
 import duikt.practice.otb.dto.UserResponse;
 import duikt.practice.otb.entity.User;
 import duikt.practice.otb.entity.addition.Role;
+import duikt.practice.otb.exception.IncorrectPasswordException;
 import duikt.practice.otb.exception.InvalidDataException;
 import duikt.practice.otb.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mapping.PropertyReferenceException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -99,5 +101,27 @@ public class UserServiceTests {
         String properties = "invalid";
         assertThrows(PropertyReferenceException.class, () ->
                 userService.getAll(direction, new String[]{properties}));
+    }
+
+    @Test
+    public void testValidIfPasswordsNotMatchesThrowException() {
+        String encodedPass = getUsersEncodedPassword("admin");
+        String rawPass = "1111";
+
+        assertDoesNotThrow(() -> userService
+                .ifPasswordsNotMatchesThrowException(rawPass, encodedPass));
+    }
+
+    @Test
+    public void testThrowingExceptionIfPasswordsNotMatchesThrowException() {
+        String encodedPass = getUsersEncodedPassword("admin");
+        String rawPass = "invalid password";
+
+        assertThrows(IncorrectPasswordException.class, () -> userService
+                .ifPasswordsNotMatchesThrowException(rawPass, encodedPass));
+    }
+
+    private String getUsersEncodedPassword(String username) {
+        return userService.getUserByName(username).getPassword();
     }
 }

@@ -12,6 +12,4 @@ public interface UserMapper {
     User getEntityFromUserRegisterRequest(UserRegisterRequest registerRequest);
 
     UserResponse getUserResponseFromEntity(User user);
-
-    UserDetails toUserDetails(User user);
 }

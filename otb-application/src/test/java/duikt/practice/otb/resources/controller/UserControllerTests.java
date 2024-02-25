@@ -2,16 +2,23 @@ package duikt.practice.otb.resources.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import duikt.practice.otb.dto.UserRegisterRequest;
+import duikt.practice.otb.dto.UserResponse;
+import duikt.practice.otb.mapper.UserMapper;
 import duikt.practice.otb.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.http.MediaType.*;
@@ -28,12 +35,13 @@ public class UserControllerTests {
 
     private final MockMvc mockMvc;
     private final UserService userService;
-
+    private final UserMapper userMapper;
 
     @Autowired
-    public UserControllerTests(MockMvc mockMvc, UserService userService) {
+    public UserControllerTests(MockMvc mockMvc, UserService userService, UserMapper userMapper) {
         this.mockMvc = mockMvc;
         this.userService = userService;
+        this.userMapper = userMapper;
     }
 
     @Test
@@ -96,15 +104,20 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser(username = "admin", roles = "USER")
     public void testValidGetAll() throws Exception {
         String sortDirection = "-";
         String[] properties = new String[]{"email", "id"};
-        String expectedResponse = asJsonString(userService.getAll(sortDirection, properties));
+        List<UserResponse> userResponses = userService.getAll(sortDirection, properties)
+                .stream()
+                .map(userMapper::getUserResponseFromEntity)
+                .collect(toList());
+        String expectedResponse = asJsonString(userResponses);
 
         mockMvc.perform(get(BASIC_PATH + "/getAll")
-                .param("direction", sortDirection)
-                .param("properties", properties)
-        )
+                        .param("direction", sortDirection)
+                        .param("properties", properties)
+                )
                 .andExpect(status().isOk())
                 .andExpect(result -> assertEquals(expectedResponse,
                         result.getResponse().getContentAsString()));

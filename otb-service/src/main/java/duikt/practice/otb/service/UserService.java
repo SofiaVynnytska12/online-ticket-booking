@@ -11,4 +11,8 @@ public interface UserService {
     User registerUser(User user);
 
     List<User> getAll(String sortDirection, String[] properties);
+
+    User getUserByName(String name);
+
+    void ifPasswordsNotMatchesThrowException(String rawPass, String encodedPass);
 }
