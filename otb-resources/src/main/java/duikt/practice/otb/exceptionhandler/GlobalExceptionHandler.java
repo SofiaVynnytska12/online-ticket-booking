@@ -83,9 +83,7 @@ public class GlobalExceptionHandler {
                 message,
                 request.getRequestURL().toString()
         );
-        if (httpStatus.is5xxServerError()) {
-            return ResponseEntity.internalServerError().body(errorResponse);
-        }
+
         return ResponseEntity.status(httpStatus).body(errorResponse);
     }
 }

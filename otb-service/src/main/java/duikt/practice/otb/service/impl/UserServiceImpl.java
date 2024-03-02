@@ -62,19 +62,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByName(String name) {
-        if (name == null || name.trim().isEmpty()){
-            throw new IllegalArgumentException("incorrect name");
-        }
-
-        return userRepository.findByUsername(name)
-                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
-    }
-
-    @Override
     public void ifPasswordsNotMatchesThrowException(String rawPass, String encodedPass) {
         if (!passwordEncoder.matches(rawPass, encodedPass)) {
             throw new IncorrectPasswordException("Check if you write correct password!");
         }
     }
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        if (name == null || name.trim().isEmpty()){
+            throw new IllegalArgumentException("incorrect name");
+        }
+        return userRepository.findByUsername(name)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+    }
+
+
 }
