@@ -127,6 +127,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     public void testValidGetUserByName() throws Exception {
         String name = "admin";
         String expectedResponse = asJsonString(userMapper.getUserResponseFromEntity(userService.getUserByName(name)));
@@ -137,6 +138,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     public void testValidGetUserById() throws Exception {
         Long id = 1L;
         String expectedResponse = asJsonString(userMapper.getUserResponseFromEntity(userService.getUserById(id)));
@@ -147,6 +149,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     public void testInvalidGetUserById() throws Exception {
         Long id = -1L;
         String expectedResponse = "\"status\":\"NOT_FOUND\",\"message\":\"User not found!\"";
@@ -157,6 +160,7 @@ public class UserControllerTests {
     }
 
     @Test
+    @WithMockUser(username = "admin")
     public void testInvalidGetUserByName() throws Exception {
         String name = "aboba";
         String expectedResponse = "\"status\":\"NOT_FOUND\",\"message\":\"User not found!\"";
