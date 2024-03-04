@@ -6,6 +6,8 @@ import duikt.practice.otb.entity.User;
 import org.mapstruct.Mapper;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 

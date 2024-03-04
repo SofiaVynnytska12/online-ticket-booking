@@ -1,11 +1,11 @@
 package duikt.practice.otb.entity;
 
 import duikt.practice.otb.entity.addition.Role;
+
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -14,12 +14,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "users")
+@ToString
 public class User implements UserDetails {
 
     @Id
@@ -44,6 +50,12 @@ public class User implements UserDetails {
     @Column(name = "user_role", nullable = false)
     private Role userRole;
 
+    @OneToMany(mappedBy = "owner")
+    private List<TrainTicket> trainTickets;
+
+    @OneToMany(mappedBy = "owner")
+    private List<BusTicket> busTickets;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,17 +69,6 @@ public class User implements UserDetails {
     @Override
     public int hashCode() {
         return 33 * Objects.hash(id, username, email, password, userRole);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", userRole=" + userRole +
-                '}';
     }
 
     @Override
@@ -95,3 +96,4 @@ public class User implements UserDetails {
         return true;
     }
 }
+

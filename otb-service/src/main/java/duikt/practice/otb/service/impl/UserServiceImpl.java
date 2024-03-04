@@ -66,10 +66,11 @@ public class UserServiceImpl implements UserService {
         if (name == null || name.trim().isEmpty()){
             throw new IllegalArgumentException("incorrect name");
         }
-
         return userRepository.findByUsername(name)
                 .orElseThrow(() -> new EntityNotFoundException("User not found!"));
     }
+
+
 
     @Override
     public void ifPasswordsNotMatchesThrowException(String rawPass, String encodedPass) {
@@ -77,4 +78,10 @@ public class UserServiceImpl implements UserService {
             throw new IncorrectPasswordException("Check if you write correct password!");
         }
     }
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found!"));
+    }
+
 }

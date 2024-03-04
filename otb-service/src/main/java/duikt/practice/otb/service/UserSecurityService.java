@@ -13,7 +13,7 @@ public class UserSecurityService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-        return userService.getUserByName(username);
+        return (UserDetails) userService.getUserByName(username);
     }
 
 }
