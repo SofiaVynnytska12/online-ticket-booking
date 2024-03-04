@@ -2,6 +2,7 @@ package duikt.practice.otb.controller;
 
 import duikt.practice.otb.dto.ErrorResponse;
 import duikt.practice.otb.dto.LoginRequest;
+import duikt.practice.otb.dto.UserRegisterRequest;
 import duikt.practice.otb.dto.UserResponse;
 import duikt.practice.otb.entity.User;
 import duikt.practice.otb.mapper.UserMapper;
@@ -72,6 +73,32 @@ public class AuthController {
                 this.authenticationManager.authenticate(authenticationRequest);
 
         SecurityContextHolder.getContext().setAuthentication(authenticationResponse);
+    }
+
+    @PostMapping("/registration")
+    @Operation(summary = "Register a new user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Successful registration",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "BadRequestError",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "403", description = "ForbiddenError",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "InternalServerError",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorResponse.class))}),
+    })
+    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody
+                                                     UserRegisterRequest userRegisterRequest) {
+        User wantToRegister = userMapper.getEntityFromUserRegisterRequest(userRegisterRequest);
+        User registeredUser = userService.registerUser(wantToRegister);
+        log.info("REGISTRATION-USER; email === {}, time == {}",
+                wantToRegister.getEmail(), LocalDateTime.now());
+
+        return ResponseEntity.ok(userMapper.getUserResponseFromEntity(registeredUser));
     }
 
 }

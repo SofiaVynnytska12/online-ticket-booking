@@ -23,7 +23,8 @@ import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static java.util.stream.Collectors.*;
+import static java.util.stream.Collectors.toList;
+
 @SecurityScheme(
         name = "basicAuth",
         type = SecuritySchemeType.HTTP,
@@ -38,38 +39,12 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @PostMapping("/registration")
-    @Operation(summary = "Register a new user")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Successful registration",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = UserResponse.class))}),
-            @ApiResponse(responseCode = "400", description = "BadRequestError",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))}),
-            @ApiResponse(responseCode = "403", description = "ForbiddenError",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))}),
-            @ApiResponse(responseCode = "500", description = "InternalServerError",
-                    content = {@Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ErrorResponse.class))}),
-    })
-    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody
-                                               UserRegisterRequest userRegisterRequest) {
-        User wantToRegister = userMapper.getEntityFromUserRegisterRequest(userRegisterRequest);
-        User registeredUser = userService.registerUser(wantToRegister);
-        log.info("REGISTRATION-USER; email === {}, time == {}",
-                wantToRegister.getEmail(), LocalDateTime.now());
-
-        return ResponseEntity.ok(userMapper.getUserResponseFromEntity(registeredUser));
-    }
-
     @GetMapping("/getAll")
     @Operation(summary = "Get all users")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetches all users from the system",
                     content = @Content(mediaType = "application/json",
-                                    array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))),
+                            array = @ArraySchema(schema = @Schema(implementation = UserResponse.class)))),
             @ApiResponse(responseCode = "403", description = "ForbiddenError",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
@@ -91,6 +66,7 @@ public class UserController {
 
         return ResponseEntity.ok(userResponses);
     }
+
     @GetMapping("/id/{id}")
     @Operation(summary = "Get user by id")
     @ApiResponses(value = {

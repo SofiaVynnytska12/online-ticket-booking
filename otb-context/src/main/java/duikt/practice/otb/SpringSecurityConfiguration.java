@@ -37,8 +37,9 @@ public class SpringSecurityConfiguration {
         try {
             httpSecurity.authorizeRequests(authorizeRequests ->
                             authorizeRequests
-                                    .antMatchers("/admin/**").hasRole("ADMIN")
-                                    .antMatchers("/auth/login", "/user/registration").permitAll()
+                                    .antMatchers("/user/getAll", "/user/id/",
+                                            "/user/username/").hasRole("ADMIN")
+                                    .antMatchers("/auth/**").permitAll()
                                     .anyRequest().authenticated()
                     )
                     .httpBasic(withDefaults())
