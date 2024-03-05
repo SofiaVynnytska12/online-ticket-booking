@@ -1,6 +1,5 @@
 package duikt.practice.otb.service;
 
-import duikt.practice.otb.dto.UserResponse;
 import duikt.practice.otb.entity.User;
 import duikt.practice.otb.entity.addition.Role;
 import duikt.practice.otb.exception.IncorrectPasswordException;
@@ -14,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mapping.PropertyReferenceException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -24,7 +22,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -111,7 +108,7 @@ public class UserServiceTests {
     public void testValidGetUserById() {
         User expected = new User();
         expected.setUsername("username");
-        expected.setEmail("user@mail.co");
+        expected.setEmail("test@mail.co");
         expected.setPassword("password");
         expected = userService.registerUser(expected);
 
@@ -124,7 +121,7 @@ public class UserServiceTests {
     public void testValidGetUserByName() {
         User expected = new User();
         expected.setUsername("username");
-        expected.setEmail("user@mail.co");
+        expected.setEmail("tesst@mail.co");
         expected.setPassword("password");
         expected = userService.registerUser(expected);
 
