@@ -18,8 +18,8 @@ public class BusTicket extends Ticket {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
     @JoinColumn(name = "owner_id")
-    @ManyToOne(cascade = CascadeType.ALL)
     private User owner;
 
     @Override

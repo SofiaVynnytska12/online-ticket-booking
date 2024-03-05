@@ -30,8 +30,8 @@ public class TrainTicket extends Ticket {
     @Column(name = "car_number")
     private int carNumber;
 
+    @ManyToOne
     @JoinColumn(name = "owner_id")
-    @ManyToOne(cascade = CascadeType.ALL)
     private User owner;
 
     @Override

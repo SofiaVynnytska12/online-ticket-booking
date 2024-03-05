@@ -1,5 +1,6 @@
 INSERT INTO users (username, email, password, user_role)
-VALUES ('admin', 'admin@mail.co', '$2a$10$bIjGIiFFRtxMLutKDvuPTeTtpROhRceXImnIqzOUkkwN/aBMJE/hu', 'ADMIN');
+VALUES ('admin', 'admin@mail.co', '$2a$10$bIjGIiFFRtxMLutKDvuPTeTtpROhRceXImnIqzOUkkwN/aBMJE/hu', 'ADMIN'),
+       ('user', 'user@mail.co', '$2a$10$bIjGIiFFRtxMLutKDvuPTeTtpROhRceXImnIqzOUkkwN/aBMJE/hu', 'USER');
 
 INSERT INTO train_tickets (name, from_city, to_city, day_of_departure, arrival_day, time_of_departure, arrival_time, price, seat_number, type_of_train_class, car_number, owner_id)
 VALUES
