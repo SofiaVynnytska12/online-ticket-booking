@@ -14,7 +14,7 @@ import java.time.LocalTime;
 @Data
 @Builder
 @Getter
-public class TrainTicketRequest {
+public class TrainTicketResponse {
 
     @NotEmpty(message = "Name must be filled in!")
     private String name;

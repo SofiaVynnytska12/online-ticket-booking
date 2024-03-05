@@ -1,14 +1,14 @@
 package duikt.practice.otb.mapper.impl;
 
-import duikt.practice.otb.dto.TrainTicketRequest;
+import duikt.practice.otb.dto.TrainTicketResponse;
 import duikt.practice.otb.entity.TrainTicket;
 import duikt.practice.otb.mapper.TrainTicketMapper;
 
 public class TrainTicketMapperImpl implements TrainTicketMapper {
 
     @Override
-    public TrainTicketRequest entityToTrainTicketRequest(TrainTicket trainTicket) {
-        return TrainTicketRequest.builder()
+    public TrainTicketResponse entityToTrainTicketResponse(TrainTicket trainTicket) {
+        return TrainTicketResponse.builder()
                 .name(trainTicket.getName())
                 .from(trainTicket.getFrom().getName())
                 .to(trainTicket.getTo().getName())

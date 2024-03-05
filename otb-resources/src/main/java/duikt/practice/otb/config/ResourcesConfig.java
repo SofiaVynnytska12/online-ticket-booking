@@ -26,7 +26,9 @@ public class ResourcesConfig {
     }
 
     @Bean
-    public TrainTicketService trainTicketService(TrainTicketRepository trainTicketRepository) {
-        return new TrainTicketServiceIml(trainTicketRepository);
+    public TrainTicketService trainTicketService(TrainTicketRepository trainTicketRepository,
+                                                 UserService userService) {
+        return new TrainTicketServiceIml(trainTicketRepository, userService);
     }
+
 }

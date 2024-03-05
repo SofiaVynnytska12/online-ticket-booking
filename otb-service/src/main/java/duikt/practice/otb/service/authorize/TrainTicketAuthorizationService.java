@@ -1,6 +1,7 @@
 package duikt.practice.otb.service.authorize;
 
-import duikt.practice.otb.service.UserService;
+import duikt.practice.otb.entity.User;
+import duikt.practice.otb.service.TrainTicketService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -8,14 +9,23 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class TrainTicketAuthorizationService {
 
-    private final UserService userService;
+    private final UserAuthorizationService userAuthorizationService;
+    private final TrainTicketService trainTicketService;
 
-    public boolean isUserSame(Long id, String name) {
-        boolean is = getUserIdByName(name).equals(id);
-        return is;
+    public boolean isUserSameAndTicketAvailable(
+            Long userId, String username, Long ticketId) {
+        return userAuthorizationService.isUserSame(userId, username)
+                && getTrainTicketOwner(ticketId) == null;
     }
 
-    private Long getUserIdByName(String name) {
-        return userService.getUserByName(name).getId();
+    public boolean isUserSameAndTicketOwner(
+            Long userId, String username, Long ticketId) {
+        return userAuthorizationService.isUserSame(userId, username)
+                && trainTicketService.isUserTicketOwner(userId, ticketId);
     }
+
+    private User getTrainTicketOwner(Long id) {
+        return trainTicketService.getTicketById(id).getOwner();
+    }
+
 }

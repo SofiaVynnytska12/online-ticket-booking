@@ -8,4 +8,10 @@ public interface TrainTicketService {
 
     TrainTicket getTicketById(Long id);
 
+    TrainTicket buyTicket(Long userId, Long id);
+
+    TrainTicket returnTicket(Long id);
+
+    boolean isUserTicketOwner(Long ownerId, Long id);
+
 }

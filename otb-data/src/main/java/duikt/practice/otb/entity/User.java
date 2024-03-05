@@ -46,10 +46,10 @@ public class User implements UserDetails {
     @Column(name = "user_role", nullable = false)
     private Role userRole;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<TrainTicket> trainTickets;
 
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
     private List<BusTicket> busTickets;
 
     @Override
@@ -69,7 +69,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority(userRole.name()));
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + userRole.name()));
     }
 
     @Override
