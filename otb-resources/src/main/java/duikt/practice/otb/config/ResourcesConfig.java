@@ -1,5 +1,6 @@
 package duikt.practice.otb.config;
 
+import duikt.practice.otb.entity.addition.City;
 import duikt.practice.otb.mapper.UserMapper;
 import duikt.practice.otb.mapper.impl.UserMapperImpl;
 import duikt.practice.otb.repository.TrainTicketRepository;
