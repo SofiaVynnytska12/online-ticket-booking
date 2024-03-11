@@ -76,11 +76,6 @@ public class TrainTicketControllerTests {
                 .andExpect(result -> assertEquals(expectedResponse,
                         result.getResponse().getContentAsString()));
     }
-    @Test
-    public void testInvalidGetSortedTickets(){
-
-    }
-
 
     private static <T> String asJsonString(final T obj) {
         try {

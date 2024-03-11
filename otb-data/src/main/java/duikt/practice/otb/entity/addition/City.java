@@ -15,15 +15,6 @@ public enum City {
         this.name = name;
     }
 
-    public static boolean isValidCity(String name) {
-        for (City city : City.values()) {
-            if (city.getName().equalsIgnoreCase(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public static City stringToEnum(String cityName) {
         for (City city : City.values()) {
             if (city.getName().equalsIgnoreCase(cityName)) {

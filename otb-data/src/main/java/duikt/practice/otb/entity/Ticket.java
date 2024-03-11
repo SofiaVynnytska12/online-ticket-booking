@@ -1,6 +1,5 @@
 package duikt.practice.otb.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import duikt.practice.otb.entity.addition.City;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,26 +34,18 @@ public class Ticket {
     @Column(name = "to_city", nullable = false)
     private City to;
 
-//    @Temporal(TemporalType.DATE)
-//    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Day of departure must be filled in!")
     @Column(name = "day_of_departure", nullable = false)
     private LocalDate dayOfDeparture;
 
-//    @Temporal(TemporalType.DATE)
-//    @JsonFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Arrival day must be filled in!")
     @Column(name = "arrival_day", nullable = false)
     private LocalDate arrivalDay;
 
-
-//    @JsonFormat(pattern = "HH:mm:ss")
     @NotNull(message = "Time of departure must be filled in!")
     @Column(name = "time_of_departure", nullable = false)
     private LocalTime timeOfDeparture;
 
-
-//    @JsonFormat(pattern = "HH:mm:ss")
     @NotNull(message = "Arrival time must be filled in!")
     @Column(name = "arrival_time", nullable = false)
     private LocalTime arrivalTime;

@@ -19,6 +19,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @Transactional
 @SpringBootTest
 @ActiveProfiles("test")
@@ -26,6 +27,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrainTicketRepositoryTests {
 
     private final TrainTicketRepository trainTicketRepository;
+
     @Autowired
     public TrainTicketRepositoryTests(TrainTicketRepository trainTicketRepository) {
         this.trainTicketRepository = trainTicketRepository;

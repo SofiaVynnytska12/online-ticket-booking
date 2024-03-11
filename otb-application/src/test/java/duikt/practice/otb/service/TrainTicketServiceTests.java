@@ -51,9 +51,7 @@ public class TrainTicketServiceTests {
         String direction = "desc";
         String from = "Kyiv";
         String to = "Kharkiv";
-        if (!City.isValidCity(from) || !City.isValidCity(to) || from == to) {
             assertThrows(IllegalArgumentException.class, () ->
                     trainTicketService.sortedByDateAndTime(direction, from, to));
-        }
     }
 }

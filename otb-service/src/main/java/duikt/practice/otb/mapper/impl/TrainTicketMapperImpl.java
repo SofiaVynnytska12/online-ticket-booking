@@ -28,6 +28,7 @@ public class TrainTicketMapperImpl implements TrainTicketMapper {
     public TicketSorted entityToTicketSorted(TrainTicket trainTicket) {
         return TicketSorted.builder()
                 .dayOfDeparture(trainTicket.getDayOfDeparture())
+                .arrivalDay(trainTicket.getArrivalDay())
                 .from(trainTicket.getFrom().getName())
                 .to(trainTicket.getTo().getName())
                 .timeOfDeparture(trainTicket.getTimeOfDeparture())

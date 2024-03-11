@@ -52,7 +52,8 @@ public class UserControllerTests {
         String expectedResponse = asJsonString(userResponses);
 
         mockMvc.perform(get(BASIC_PATH + "/getAll")
-
+                        .param("direction",sortDirection)
+                        .param("properties",properties)
                 )
                 .andExpect(status().isOk())
                 .andExpect(result -> assertEquals(expectedResponse.length(),

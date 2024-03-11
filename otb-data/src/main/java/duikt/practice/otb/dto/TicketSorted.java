@@ -25,6 +25,9 @@ public class TicketSorted {
     @NotEmpty(message = "Day of departure must be filled in!")
     private LocalDate dayOfDeparture;
 
+    @NotEmpty(message = "Arrival day must be filled in!")
+    private LocalDate arrivalDay;
+
     @NotEmpty(message = "Time of departure must be filled in!")
     private LocalTime timeOfDeparture;
 

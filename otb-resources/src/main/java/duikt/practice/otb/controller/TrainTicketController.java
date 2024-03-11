@@ -108,6 +108,7 @@ public class TrainTicketController {
                 .stream()
                 .map(trainTicketMapper::entityToTicketSorted)
                 .collect(Collectors.toList());
+        log.info("GET-ALL-SORTED-TICKETS");
         return ResponseEntity.ok(sortedTickets);
     }
 
