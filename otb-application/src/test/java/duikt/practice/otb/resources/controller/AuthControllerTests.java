@@ -1,6 +1,5 @@
 package duikt.practice.otb.resources.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import duikt.practice.otb.dto.LoginRequest;
 import duikt.practice.otb.dto.UserRegisterRequest;
 import duikt.practice.otb.mapper.UserMapper;
@@ -15,6 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
+import static duikt.practice.otb.resources.controller.ControllerAdvice.asJsonString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.http.MediaType.*;
@@ -144,14 +144,6 @@ public class AuthControllerTests {
                 .contentType(APPLICATION_JSON)
                 .content(jsonStringForRegisterRequest)
         );
-    }
-
-    private static <T> String asJsonString(final T obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 
 }

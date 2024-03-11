@@ -4,6 +4,10 @@ import duikt.practice.otb.entity.TrainTicket;
 import duikt.practice.otb.entity.User;
 import duikt.practice.otb.entity.addition.City;
 import duikt.practice.otb.entity.addition.TypeOfTrainClass;
+
+import duikt.practice.otb.entity.TrainTicket;
+import duikt.practice.otb.repository.TrainTicketRepository;
+import duikt.practice.otb.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,10 +31,33 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TrainTicketRepositoryTests {
 
     private final TrainTicketRepository trainTicketRepository;
+    private final UserService userService;
 
     @Autowired
-    public TrainTicketRepositoryTests(TrainTicketRepository trainTicketRepository) {
+    public TrainTicketRepositoryTests(TrainTicketRepository trainTicketRepository,
+                                      UserService userService) {
         this.trainTicketRepository = trainTicketRepository;
+        this.userService = userService;
+    }
+
+    @Test
+    public void testValidIsUserTicketOwner() {
+        long userId = 2;
+        long trainId = 21;
+
+        TrainTicket trainTicket = trainTicketRepository.findById(trainId).get();
+        trainTicket.setOwner(userService.getUserById(userId));
+        trainTicketRepository.save(trainTicket);
+
+        assertTrue(trainTicketRepository.findByOwnerIdAndId(userId, trainId).isPresent());
+    }
+
+    @Test
+    public void testInvalidIsUserTicketOwner() {
+        long userId = 1;
+        long trainId = 1;
+
+        assertTrue(trainTicketRepository.findByOwnerIdAndId(userId, trainId).isEmpty());
     }
 
     @Test

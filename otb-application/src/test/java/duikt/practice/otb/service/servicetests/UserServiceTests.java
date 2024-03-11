@@ -1,10 +1,11 @@
-package duikt.practice.otb.service;
+package duikt.practice.otb.service.servicetests;
 
 import duikt.practice.otb.entity.User;
 import duikt.practice.otb.entity.addition.Role;
 import duikt.practice.otb.exception.IncorrectPasswordException;
 import duikt.practice.otb.exception.InvalidDataException;
 import duikt.practice.otb.repository.UserRepository;
+import duikt.practice.otb.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;

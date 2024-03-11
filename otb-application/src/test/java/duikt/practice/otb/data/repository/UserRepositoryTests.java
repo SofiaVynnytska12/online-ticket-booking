@@ -1,7 +1,7 @@
-package duikt.practice.otb.repository;
+package duikt.practice.otb.data.repository;
 
 import duikt.practice.otb.entity.User;
-import org.junit.jupiter.api.Assertions;
+import duikt.practice.otb.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

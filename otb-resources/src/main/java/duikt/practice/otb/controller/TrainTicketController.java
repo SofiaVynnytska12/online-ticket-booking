@@ -77,7 +77,7 @@ public class TrainTicketController {
             @PathVariable("user_id") Long userId, @PathVariable Long id,
             Authentication authentication) {
         var trainTicketRequest = trainTicketMapper
-                .entityToTrainTicketResponse(trainTicketService.returnTicket(id));
+                .entityToTrainTicketResponse(trainTicketService.returnTicket(userId, id));
         log.info("POST-TRAIN_TICKET-RETURN === user == {}, train name == {}",
                 authentication.getName(), trainTicketRequest.getName());
 
