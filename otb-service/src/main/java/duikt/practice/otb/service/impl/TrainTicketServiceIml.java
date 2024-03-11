@@ -6,8 +6,13 @@ import duikt.practice.otb.service.TrainTicketService;
 import duikt.practice.otb.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
+import duikt.practice.otb.entity.addition.City;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+
+import static org.springframework.data.domain.Sort.by;
 
 @Slf4j
 @AllArgsConstructor
@@ -15,6 +20,7 @@ public class TrainTicketServiceIml implements TrainTicketService {
 
     private final TrainTicketRepository trainTicketRepository;
     private final UserService userService;
+
 
     @Override
     public TrainTicket getTicketById(Long id) {
@@ -49,4 +55,18 @@ public class TrainTicketServiceIml implements TrainTicketService {
         return trainTicketRepository.isUserTicketOwner(ownerId, id);
     }
 
+    @Override
+    public List<TrainTicket> sortedByDateAndTime(String direction,String from, String to) {
+        return trainTicketRepository.findTicketsByFromAndToAndOwnerIsNull(City.stringToEnum(from),City.stringToEnum(to),by(getDirectionForSort(direction),
+                "dayOfDeparture","timeOfDeparture","arrivalTime"));
+    }
+
+
+    private Sort.Direction getDirectionForSort(String sortDirection) {
+        if (sortDirection.equals("+")){
+            return Sort.Direction.ASC;
+        }
+
+        return Sort.Direction.DESC;
+    }
 }

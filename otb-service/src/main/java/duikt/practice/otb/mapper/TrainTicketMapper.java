@@ -1,5 +1,6 @@
 package duikt.practice.otb.mapper;
 
+import duikt.practice.otb.dto.TicketSorted;
 import duikt.practice.otb.dto.TrainTicketResponse;
 import duikt.practice.otb.entity.TrainTicket;
 import org.mapstruct.Mapper;
@@ -12,5 +13,6 @@ public interface TrainTicketMapper {
     @Mapping(target = "to", expression = "java(trainTicket.getTo().getName())")
     @Mapping(target = "typeOfTrainClass", expression = "java(trainTicket.getTypeOfTrainClass().name())")
     TrainTicketResponse entityToTrainTicketResponse(TrainTicket trainTicket);
+    TicketSorted entityToTicketSorted(TrainTicket trainTicket);
 
 }
