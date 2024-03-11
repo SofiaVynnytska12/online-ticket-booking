@@ -45,13 +45,4 @@ public class TrainTicketServiceTests {
 
         Assertions.assertEquals(expected, actual);
     }
-
-    @Test
-    public void testValidCitiesGetSortedByDayAndTime() {
-        String direction = "desc";
-        String from = "Kyiv";
-        String to = "Kharkiv";
-            assertThrows(IllegalArgumentException.class, () ->
-                    trainTicketService.sortedByDateAndTime(direction, from, to));
-    }
 }

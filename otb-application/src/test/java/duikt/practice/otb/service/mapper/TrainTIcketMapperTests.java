@@ -65,6 +65,7 @@ public class TrainTIcketMapperTests {
          expected.setTypeOfTrainClass(typeOfTrainClass.name());
          expected.setDayOfDeparture(dayOfDeparture);
          expected.setTimeOfDeparture(departureTime);
+         expected.setArrivalDay(arrivalDay);
 
          TicketSorted actual = trainTicketMapper.entityToTicketSorted(trainTicket);
 
