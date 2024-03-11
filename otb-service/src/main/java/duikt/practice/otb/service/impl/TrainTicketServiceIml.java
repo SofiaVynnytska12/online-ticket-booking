@@ -1,6 +1,7 @@
 package duikt.practice.otb.service.impl;
 
 import duikt.practice.otb.entity.TrainTicket;
+import duikt.practice.otb.exception.BookedTicketException;
 import duikt.practice.otb.repository.TrainTicketRepository;
 import duikt.practice.otb.service.TrainTicketService;
 import duikt.practice.otb.service.UserService;
@@ -34,36 +35,57 @@ public class TrainTicketServiceIml implements TrainTicketService {
     }
 
     private TrainTicket buyTicketImplAngGetIt(Long userId, Long id) {
+        ifTicketBookedThrowExc(id);
         TrainTicket ticketToBuy = getTicketById(id);
         ticketToBuy.setOwner(userService.getUserById(userId));
         return ticketToBuy;
     }
 
-    @Override
-    public TrainTicket returnTicket(Long id) {
-        return trainTicketRepository.save(returnTicketImplAngGetIt(id));
+    private void ifTicketBookedThrowExc(Long id) {
+        if (!isTicketAvailable(id)) {
+            throw new BookedTicketException("This ticket has already booked!");
+        }
     }
 
-    private TrainTicket returnTicketImplAngGetIt(Long id) {
+    @Override
+    public boolean isTicketAvailable(Long id) {
+        return getTicketById(id).getOwner() == null;
+    }
+
+    @Override
+    public TrainTicket returnTicket(Long userId, Long id) {
+        return trainTicketRepository.save(returnTicketImplAngGetIt(userId, id));
+    }
+
+    private TrainTicket returnTicketImplAngGetIt(Long userId, Long id) {
+        ifUserNotTicketOwnerThrowExc(userId, id);
         TrainTicket ticketToBuy = getTicketById(id);
         ticketToBuy.setOwner(null);
         return ticketToBuy;
     }
 
-    @Override
-    public boolean isUserTicketOwner(Long ownerId, Long id) {
-        return trainTicketRepository.isUserTicketOwner(ownerId, id);
+    private void ifUserNotTicketOwnerThrowExc(Long userId, Long id) {
+        if (!isUserTicketOwner(userId, id)) {
+            throw new BookedTicketException("This ticket is not yours!");
+        }
     }
 
     @Override
-    public List<TrainTicket> sortedByDateAndTime(String direction,String from, String to) {
-        return trainTicketRepository.findTicketsByFromAndToAndOwnerIsNull(City.stringToEnum(from),City.stringToEnum(to),by(getDirectionForSort(direction),
-                "dayOfDeparture","timeOfDeparture","arrivalTime"));
+    public boolean isUserTicketOwner(Long ownerId, Long id) {
+        return trainTicketRepository.findByOwnerIdAndId(ownerId, id)
+                .isPresent();
+    }
+
+    @Override
+    public List<TrainTicket> sortedByDateAndTime(String direction, String from, String to) {
+        return trainTicketRepository.findTicketsByFromAndToAndOwnerIsNull(
+                City.stringToEnum(from), City.stringToEnum(to), by(getDirectionForSort(direction),
+                        "dayOfDeparture", "timeOfDeparture", "arrivalTime"));
     }
 
 
     private Sort.Direction getDirectionForSort(String sortDirection) {
-        if (sortDirection.equals("+")){
+        if (sortDirection.equals("+")) {
             return Sort.Direction.ASC;
         }
 

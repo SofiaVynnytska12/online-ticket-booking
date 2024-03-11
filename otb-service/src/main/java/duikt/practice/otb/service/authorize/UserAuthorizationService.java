@@ -14,7 +14,7 @@ public class UserAuthorizationService {
         return getUserIdByName(name).equals(id);
     }
 
-    public Long getUserIdByName(String name) {
+    private Long getUserIdByName(String name) {
         return userService.getUserByName(name).getId();
     }
 }
