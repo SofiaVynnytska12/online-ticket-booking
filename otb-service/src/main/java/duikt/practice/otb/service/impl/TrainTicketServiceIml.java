@@ -77,14 +77,15 @@ public class TrainTicketServiceIml implements TrainTicketService {
     }
 
     @Override
-    public List<TrainTicket> sortedByDateAndTime(String direction,String from, String to) {
-        return trainTicketRepository.findTicketsByFromAndToAndOwnerIsNull(City.stringToEnum(from),City.stringToEnum(to),by(getDirectionForSort(direction),
-                "dayOfDeparture","timeOfDeparture","arrivalTime"));
+    public List<TrainTicket> sortedByDateAndTime(String direction, String from, String to) {
+        return trainTicketRepository.findTicketsByFromAndToAndOwnerIsNull(
+                City.stringToEnum(from), City.stringToEnum(to), by(getDirectionForSort(direction),
+                        "dayOfDeparture", "timeOfDeparture", "arrivalTime"));
     }
 
 
     private Sort.Direction getDirectionForSort(String sortDirection) {
-        if (sortDirection.equals("+")){
+        if (sortDirection.equals("+")) {
             return Sort.Direction.ASC;
         }
 
