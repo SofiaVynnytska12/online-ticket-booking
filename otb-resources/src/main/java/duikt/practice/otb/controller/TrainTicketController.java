@@ -3,13 +3,9 @@ package duikt.practice.otb.controller;
 import duikt.practice.otb.dto.ErrorResponse;
 import duikt.practice.otb.dto.TicketSorted;
 import duikt.practice.otb.dto.TrainTicketResponse;
-import duikt.practice.otb.dto.UserResponse;
-import duikt.practice.otb.entity.TrainTicket;
-import duikt.practice.otb.entity.addition.City;
 import duikt.practice.otb.mapper.TrainTicketMapper;
 import duikt.practice.otb.repository.TrainTicketRepository;
 import duikt.practice.otb.service.TrainTicketService;
-import duikt.practice.otb.service.impl.TrainTicketServiceIml;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -24,11 +20,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @RestController
@@ -83,6 +76,7 @@ public class TrainTicketController {
 
         return ResponseEntity.ok(trainTicketRequest);
     }
+
     @Operation(summary = "Get sorted tickets")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetches all users from the system",
@@ -100,11 +94,11 @@ public class TrainTicketController {
     })
     @GetMapping("/{fromCity}/{toCity}")
     public ResponseEntity<List<TicketSorted>> getSortedTickets(
-            @RequestParam(value = "direction",defaultValue = "+") String direction,
+            @RequestParam(value = "direction", defaultValue = "+") String direction,
             @PathVariable("fromCity") String fromCity,
             @PathVariable("toCity") String toCity,
             @PathVariable Long user_id) {
-        List<TicketSorted> sortedTickets = trainTicketService.sortedByDateAndTime(direction,fromCity,toCity)
+        List<TicketSorted> sortedTickets = trainTicketService.sortedByDateAndTime(direction, fromCity, toCity)
                 .stream()
                 .map(trainTicketMapper::entityToTicketSorted)
                 .collect(Collectors.toList());

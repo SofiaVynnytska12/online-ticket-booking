@@ -1,18 +1,15 @@
-package duikt.practice.otb.repository;
+package duikt.practice.otb.data.repository;
 
 import duikt.practice.otb.entity.TrainTicket;
 import duikt.practice.otb.entity.User;
 import duikt.practice.otb.entity.addition.City;
 import duikt.practice.otb.entity.addition.TypeOfTrainClass;
-
-import duikt.practice.otb.entity.TrainTicket;
 import duikt.practice.otb.repository.TrainTicketRepository;
 import duikt.practice.otb.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Sort;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +19,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @Transactional
 @SpringBootTest
