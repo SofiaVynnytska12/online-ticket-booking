@@ -32,7 +32,6 @@ CREATE TABLE bus_tickets (
                              name VARCHAR(255) NOT NULL,
                              from_city VARCHAR(255) NOT NULL CHECK (from_city IN ('KYIV','DNIPRO','WARSAW','KHARKIV')),
                              to_city VARCHAR(255) NOT NULL CHECK (to_city IN ('KYIV','DNIPRO','WARSAW','KHARKIV')),
-                             ticket_status VARCHAR(255) NOT NULL CHECK (ticket_status IN ('AVAILABLE', 'BOOKED')),
                              day_of_departure DATE NOT NULL,
                              arrival_day DATE NOT NULL,
                              time_of_departure TIME NOT NULL,

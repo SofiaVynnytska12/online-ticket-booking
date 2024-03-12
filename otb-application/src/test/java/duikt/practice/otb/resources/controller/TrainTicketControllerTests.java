@@ -42,12 +42,12 @@ public class TrainTicketControllerTests {
         this.trainTicketMapper = trainTicketMapper;
     }
     @Test
-    @WithMockUser(username = "user")
+    @WithMockUser(username = "user", roles = "USER")
     public void testValidGetSortedTickets() throws Exception{
         String sortDirection = "-";
         String from = "Kyiv";
         String to = "Kharkiv";
-        Long id = 1L;
+        Long id = 2L;
         List<TicketSorted> sortedTickets = trainTicketService.sortedByDateAndTime(sortDirection,from,to)
                 .stream()
                 .map(trainTicketMapper::entityToTicketSorted)
