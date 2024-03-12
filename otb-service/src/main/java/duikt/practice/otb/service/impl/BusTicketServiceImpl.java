@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 @Slf4j
 @AllArgsConstructor
 public class BusTicketServiceImpl implements BusTicketService {
+
     private final BusTicketRepository busTicketRepository;
     private final UserService userService;
 
@@ -37,17 +38,15 @@ public class BusTicketServiceImpl implements BusTicketService {
         return busTicketRepository.findByOwnerIdAndId(ownerId, id)
                 .isPresent();
     }
+
+    @Override
+    public boolean isTicketAvailable(Long id) {
+        return getTicketById(id).getOwner() == null;
+    }
+
     private void ifTicketBookedThrowExc(Long id){
         if (!(getTicketById(id).getOwner() == null)){
             throw new BookedTicketException("this is not your ticket!");
         }
-    }
-
-    private Sort.Direction getDirectionForSort(String sortDirection) {
-        if (sortDirection.equals("+")) {
-            return Sort.Direction.ASC;
-        }
-
-        return Sort.Direction.DESC;
     }
 }

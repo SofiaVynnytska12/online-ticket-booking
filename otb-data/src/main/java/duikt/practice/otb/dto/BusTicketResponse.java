@@ -15,7 +15,7 @@ import java.util.Objects;
 @Data
 @Getter
 @Builder
-public class BusTicketResponse {    @NotEmpty(message = "Name must be filled in!")
+public class BusTicketResponse {
 
     @NotEmpty
     private String name;

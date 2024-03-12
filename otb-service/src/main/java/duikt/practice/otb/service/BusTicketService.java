@@ -11,5 +11,6 @@ public interface BusTicketService {
     BusTicket buyTicket(Long userId, Long id);
 
     boolean isUserTicketOwner(Long ownerId, Long id);
+     boolean isTicketAvailable(Long id);
 
 }

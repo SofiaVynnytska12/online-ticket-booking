@@ -30,7 +30,7 @@ public class BusTicketController {
 
     @Operation(summary = "buy bus ticket")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Return train ticket by user",
+            @ApiResponse(responseCode = "200", description = " ticket has been bought, have a nice ride",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = BusTicketResponse.class))),
             @ApiResponse(responseCode = "403", description = "ForbiddenError",
@@ -44,13 +44,12 @@ public class BusTicketController {
                             schema = @Schema(implementation = ErrorResponse.class))),
     })
     @PostMapping("/buy/{id}")
-    @PreAuthorize("@trainTicketAuthorizationService" +
+    @PreAuthorize("@busTicketAuthorizationService" +
             ".isUserSameAndTicketAvailable(#userId, authentication.name, #ticketId)")
     public ResponseEntity<BusTicketResponse> buyBusTicket(
             @PathVariable("user_id") Long userId,
-            @PathVariable("id") Long ticketId,Authentication authentication) {
-            BusTicketResponse response = busTicketsMapper.
-                    entityToBusTicketResponse(busTicketService.buyTicket(userId,ticketId));
+            @PathVariable("id") Long ticketId, Authentication authentication) {
+            BusTicketResponse response = busTicketsMapper.entityToBusTicketResponse(busTicketService.buyTicket(userId,ticketId));
         log.info("POST-BUS_TICKET-BUY === user == {}, bus name == {}",
                 authentication.getName(), response.getName());
 
@@ -60,7 +59,7 @@ public class BusTicketController {
     }
     @Operation(summary = "get one bus  ticket")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Return train ticket by user",
+            @ApiResponse(responseCode = "200", description = "here is your ticket, enjoy!",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = BusTicketResponse.class))),
             @ApiResponse(responseCode = "403", description = "ForbiddenError",
