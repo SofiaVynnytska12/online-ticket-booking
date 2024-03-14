@@ -2,10 +2,13 @@ package duikt.practice.otb.config;
 
 import duikt.practice.otb.mapper.UserMapper;
 import duikt.practice.otb.mapper.impl.UserMapperImpl;
+import duikt.practice.otb.repository.BusTicketRepository;
 import duikt.practice.otb.repository.TrainTicketRepository;
 import duikt.practice.otb.repository.UserRepository;
+import duikt.practice.otb.service.BusTicketService;
 import duikt.practice.otb.service.TrainTicketService;
 import duikt.practice.otb.service.UserService;
+import duikt.practice.otb.service.impl.BusTicketServiceImpl;
 import duikt.practice.otb.service.impl.TrainTicketServiceIml;
 import duikt.practice.otb.service.impl.UserServiceImpl;
 import org.springframework.context.annotation.Bean;
@@ -29,6 +32,11 @@ public class ResourcesConfig {
     public TrainTicketService trainTicketService(TrainTicketRepository trainTicketRepository,
                                                  UserService userService) {
         return new TrainTicketServiceIml(trainTicketRepository, userService);
+    }
+    @Bean
+    public BusTicketService busTicketService(BusTicketRepository busTicketRepository,
+                                             UserService userService) {
+        return new BusTicketServiceImpl(busTicketRepository, userService);
     }
 
 }

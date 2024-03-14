@@ -35,7 +35,7 @@ public class TrainTicketController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Fetches all users from the system",
                     content = @Content(mediaType = "application/json",
-                            array = @ArraySchema(schema = @Schema(implementation = TrainTicketResponse.class)))),
+                            array = @ArraySchema(schema = @Schema(implementation = TicketSorted.class)))),
             @ApiResponse(responseCode = "403", description = "ForbiddenError",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ErrorResponse.class))),
@@ -47,7 +47,9 @@ public class TrainTicketController {
                             schema = @Schema(implementation = ErrorResponse.class))),
     })
     @GetMapping("/{fromCity}/{toCity}")
+    @PreAuthorize("@userAuthorizationService.isUserSame(#user_id, authentication.name)")
     public ResponseEntity<List<TicketSorted>> getSortedTickets(
+            Authentication authentication,
             @RequestParam(value = "direction", defaultValue = "+") String direction,
             @PathVariable("fromCity") String fromCity,
             @PathVariable("toCity") String toCity,
@@ -58,6 +60,7 @@ public class TrainTicketController {
                 .map(trainTicketMapper::entityToTicketSorted)
                 .collect(Collectors.toList());
         log.info("GET-ALL-SORTED-TICKETS");
+        authentication.getName();
         return ResponseEntity.ok(sortedTickets);
     }
 
