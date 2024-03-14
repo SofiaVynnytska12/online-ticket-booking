@@ -91,12 +91,12 @@ public class BusTicketControllerTests {
         Long ownerId = 2L;
         Long busTicketId = 4L;
 
-        BusTicket ticketToBuy = busTicketService.readById(busTicketId);
+        BusTicket ticketToBuy = busTicketService.getTicketById(busTicketId);
         String expectedTicket = asJsonString(busTicketMapper
                 .getResponseFromEntity(ticketToBuy));
         ticketToBuy.setOwner(userService.getUserById(ownerId));
         busTicketRepository.save(ticketToBuy);
-        assertNotNull(busTicketService.readById(busTicketId).getOwner());
+        assertNotNull(busTicketService.getTicketById(busTicketId).getOwner());
 
         mockMvc.perform(delete(BASIC_PATH + "/return/{id}",
                         ownerId, busTicketId))

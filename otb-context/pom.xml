@@ -8,20 +8,10 @@
         <artifactId>otb-parent</artifactId>
         <version>1.0.0.1-SNAPSHOT</version>
     </parent>
+
     <artifactId>otb-context</artifactId>
+
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-
         <dependency>
             <groupId>duikt.practice.otb</groupId>
             <artifactId>otb-service</artifactId>

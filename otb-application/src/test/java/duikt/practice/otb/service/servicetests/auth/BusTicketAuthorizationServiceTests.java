@@ -58,7 +58,7 @@ public class BusTicketAuthorizationServiceTests {
     }
 
     private void setOwnerToBusTicket(Long userId, Long ticketId) {
-        BusTicket addOwnerToBusTicket = busTicketService.readById(ticketId);
+        BusTicket addOwnerToBusTicket = busTicketService.getTicketById(ticketId);
         addOwnerToBusTicket.setOwner(userService.getUserById(userId));
         busTicketRepository.save(addOwnerToBusTicket);
     }

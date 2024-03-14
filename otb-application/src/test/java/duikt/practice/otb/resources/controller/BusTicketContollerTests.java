@@ -1,10 +1,7 @@
 package duikt.practice.otb.resources.controller;
 
-import duikt.practice.otb.dto.BusTicketResponse;
-import duikt.practice.otb.entity.BusTicket;
 import duikt.practice.otb.mapper.BusTicketsMapper;
 import duikt.practice.otb.service.BusTicketService;
-import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -15,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.transaction.annotation.Transactional;
 
-import static duikt.practice.otb.resources.controller.ControllerAdvice.asJsonString;
+import static duikt.practice.otb.TestAdvice.asJsonString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -25,7 +22,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = MOCK)
-
 public class BusTicketContollerTests {
     private static final String BASIC_PATH = "/user/{user_id}/bus_ticket";
 

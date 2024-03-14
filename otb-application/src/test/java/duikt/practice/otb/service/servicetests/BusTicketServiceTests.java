@@ -45,7 +45,7 @@ public class BusTicketServiceTests {
     public void testValidReadById() {
         BusTicket expected = getBusTicket();
         busTicketRepository.save(expected);
-        BusTicket actual = busTicketService.readById(expected.getId());
+        BusTicket actual = busTicketService.getTicketById(expected.getId());
 
         assertEquals(expected, actual);
     }
@@ -67,7 +67,7 @@ public class BusTicketServiceTests {
 
     @Test
     public void testEntityNotFoundExcReadById() {
-        assertThrows(EntityNotFoundException.class, () -> busTicketService.readById(0L));
+        assertThrows(EntityNotFoundException.class, () -> busTicketService.getTicketById(0L));
     }
 
     @Test
@@ -106,10 +106,10 @@ public class BusTicketServiceTests {
         Long busTicketId = 4L;
 
         buyTicketSimulation(ownerId, busTicketId);
-        assertNotNull(busTicketService.readById(busTicketId).getOwner());
+        assertNotNull(busTicketService.getTicketById(busTicketId).getOwner());
 
         busTicketService.returnBusTicket(ownerId, busTicketId);
-        assertNull(busTicketService.readById(busTicketId).getOwner());
+        assertNull(busTicketService.getTicketById(busTicketId).getOwner());
     }
 
     @Test
@@ -136,7 +136,7 @@ public class BusTicketServiceTests {
     }
 
     private void buyTicketSimulation(Long userId, Long ticketId) {
-        BusTicket busTicket = busTicketService.readById(ticketId);
+        BusTicket busTicket = busTicketService.getTicketById(ticketId);
         busTicket.setOwner(userService.getUserById(userId));
         busTicketRepository.save(busTicket);
     }
