@@ -38,7 +38,16 @@ public class BusTicketRepositoryTests {
         saveTicket.setOwner(userService.getUserById(owner));
         busTicketRepository.save(saveTicket);
         Assertions.assertTrue(busTicketRepository.findByOwnerIdAndId(owner,id).isPresent());
-        Assertions.assertTrue(busTicketRepository.findByOwnerIdAndId(owner,id).isPresent());
+    }
+    @Test
+    public void testNotEmptyFindByOwnerIdAndId(){
+
+        Long owner = 1L;
+        Long id = 5L;
+
+        BusTicket saveTicket = busTicketRepository.findById(id).get();
+        saveTicket.setOwner(userService.getUserById(owner));
+        busTicketRepository.save(saveTicket);
         Assertions.assertFalse(busTicketRepository.findByOwnerIdAndId(owner,id).isEmpty());
     }
 }
