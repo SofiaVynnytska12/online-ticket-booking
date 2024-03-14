@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static duikt.practice.otb.resources.controller.ControllerAdvice.asJsonString;
+import static duikt.practice.otb.TestAdvice.asJsonString;
 import static java.util.stream.Collectors.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;

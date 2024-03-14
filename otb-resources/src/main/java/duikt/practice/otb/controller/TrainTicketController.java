@@ -85,12 +85,12 @@ public class TrainTicketController {
     public ResponseEntity<TrainTicketResponse> getOneTrainTicket(
             @PathVariable("user_id") Long userId, @PathVariable Long id,
             Authentication authentication) {
-        var trainTicketRequest = trainTicketMapper
+        var trainTicketResponse = trainTicketMapper
                 .entityToTrainTicketResponse(trainTicketService.getTicketById(id));
         log.info("GET-TRAIN_TICKET === user == {}, train name == {}",
-                authentication.getName(), trainTicketRequest.getName());
+                authentication.getName(), trainTicketResponse.getName());
 
-        return ResponseEntity.ok(trainTicketRequest);
+        return ResponseEntity.ok(trainTicketResponse);
     }
 
     @Operation(summary = "Buy train ticket")
@@ -114,14 +114,14 @@ public class TrainTicketController {
     public ResponseEntity<TrainTicketResponse> trainTicketBuy(
             @PathVariable("user_id") Long userId, @PathVariable Long id,
             Authentication authentication) {
-        var trainTicketRequest = trainTicketMapper
+        var trainTicketResponse = trainTicketMapper
                 .entityToTrainTicketResponse(trainTicketService.buyTicket(userId, id));
         log.info("POST-TRAIN_TICKET-BUY === user == {}, train name == {}",
-                authentication.getName(), trainTicketRequest.getName());
+                authentication.getName(), trainTicketResponse.getName());
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(trainTicketRequest);
+                .body(trainTicketResponse);
     }
 
     @Operation(summary = "Return train ticket")
@@ -145,11 +145,11 @@ public class TrainTicketController {
     public ResponseEntity<TrainTicketResponse> trainTicketReturn(
             @PathVariable("user_id") Long userId, @PathVariable Long id,
             Authentication authentication) {
-        var trainTicketRequest = trainTicketMapper
+        var trainTicketResponse = trainTicketMapper
                 .entityToTrainTicketResponse(trainTicketService.returnTicket(userId, id));
-        log.info("POST-TRAIN_TICKET-RETURN === user == {}, train name == {}",
-                authentication.getName(), trainTicketRequest.getName());
+        log.info("DELETE-TRAIN_TICKET-RETURN === user == {}, train name == {}",
+                authentication.getName(), trainTicketResponse.getName());
 
-        return ResponseEntity.ok(trainTicketRequest);
+        return ResponseEntity.ok(trainTicketResponse);
     }
 }

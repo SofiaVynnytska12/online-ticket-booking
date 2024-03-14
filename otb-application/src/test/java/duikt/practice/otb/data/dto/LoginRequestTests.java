@@ -1,6 +1,6 @@
 package duikt.practice.otb.data.dto;
 
-import duikt.practice.otb.data.TestAdvice;
+import duikt.practice.otb.TestAdvice;
 import duikt.practice.otb.dto.LoginRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.stream.Stream;
 
-import static duikt.practice.otb.data.TestAdvice.getViolation;
+import static duikt.practice.otb.TestAdvice.getViolation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest

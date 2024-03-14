@@ -17,7 +17,7 @@ import java.util.Objects;
 @Builder
 public class BusTicketResponse {
 
-    @NotEmpty
+    @NotEmpty(message = "Name must be filled in!")
     private String name;
 
     @NotEmpty(message = "City from must be filled in!")
@@ -50,20 +50,20 @@ public class BusTicketResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BusTicketResponse that = (BusTicketResponse) o;
-        return seatNumber == that.seatNumber &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(from, that.from) &&
-                Objects.equals(to, that.to) &&
-                Objects.equals(dayOfDeparture, that.dayOfDeparture) &&
-                Objects.equals(arrivalDay, that.arrivalDay) &&
-                Objects.equals(timeOfDeparture, that.timeOfDeparture) &&
-                Objects.equals(arrivalTime, that.arrivalTime) &&
-                Objects.equals(price, that.price);
+        return seatNumber == that.seatNumber
+                && Objects.equals(name, that.name)
+                && Objects.equals(from, that.from)
+                && Objects.equals(to, that.to)
+                && Objects.equals(dayOfDeparture, that.dayOfDeparture)
+                && Objects.equals(arrivalDay, that.arrivalDay)
+                && Objects.equals(timeOfDeparture, that.timeOfDeparture)
+                && Objects.equals(arrivalTime, that.arrivalTime)
+                && Objects.equals(price, that.price);
     }
 
     @Override
     public int hashCode() {
-        return 51 * Objects.hash(name, from, to, dayOfDeparture, arrivalDay, timeOfDeparture, arrivalTime, price, seatNumber);
+        return 25 * Objects.hash(name, from, to, dayOfDeparture, arrivalDay,
+                timeOfDeparture, arrivalTime, price, seatNumber);
     }
-
 }

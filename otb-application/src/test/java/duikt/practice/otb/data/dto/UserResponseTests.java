@@ -12,7 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.stream.Stream;
 
-import static duikt.practice.otb.data.TestAdvice.getViolation;
+import static duikt.practice.otb.TestAdvice.getViolation;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 

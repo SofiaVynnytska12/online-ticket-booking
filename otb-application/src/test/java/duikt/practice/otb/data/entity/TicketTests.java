@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.stream.Stream;
 
-import static duikt.practice.otb.data.TestAdvice.*;
+import static duikt.practice.otb.TestAdvice.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
