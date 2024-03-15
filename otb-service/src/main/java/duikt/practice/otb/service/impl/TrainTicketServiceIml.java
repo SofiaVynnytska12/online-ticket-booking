@@ -7,12 +7,12 @@ import duikt.practice.otb.service.TrainTicketService;
 import duikt.practice.otb.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import duikt.practice.otb.entity.addition.City;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+import static duikt.practice.otb.service.SortAdvice.getDirectionForSort;
 import static org.springframework.data.domain.Sort.by;
 
 @Slf4j
@@ -83,12 +83,4 @@ public class TrainTicketServiceIml implements TrainTicketService {
                         "dayOfDeparture", "timeOfDeparture", "arrivalTime"));
     }
 
-
-    private Sort.Direction getDirectionForSort(String sortDirection) {
-        if (sortDirection.equals("+")) {
-            return Sort.Direction.ASC;
-        }
-
-        return Sort.Direction.DESC;
-    }
 }

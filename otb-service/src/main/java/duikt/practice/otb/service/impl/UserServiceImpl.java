@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+import static duikt.practice.otb.service.SortAdvice.getDirectionForSort;
 import static org.springframework.data.domain.Sort.*;
 
 @Slf4j
@@ -51,14 +52,6 @@ public class UserServiceImpl implements UserService {
     public List<User> getAll(String sortDirection, String[] properties) {
         return userRepository.findAll(
                 by(getDirectionForSort(sortDirection), properties));
-    }
-
-    private Direction getDirectionForSort(String sortDirection) {
-        if (sortDirection.equals("+")){
-            return Direction.ASC;
-        }
-
-        return Direction.DESC;
     }
 
     @Override

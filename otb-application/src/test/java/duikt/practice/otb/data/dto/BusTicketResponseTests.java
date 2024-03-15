@@ -1,8 +1,6 @@
 package duikt.practice.otb.data.dto;
 
-import duikt.practice.otb.dto.TrainTicketResponse;
-import duikt.practice.otb.entity.addition.City;
-import duikt.practice.otb.entity.addition.TypeOfTrainClass;
+import duikt.practice.otb.dto.BusTicketResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,66 +19,55 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class TrainTicketResponseTests {
+public class BusTicketResponseTests {
 
-    private TrainTicketResponse trainTicketResponse;
+    private BusTicketResponse busTicketResponse;
 
     @BeforeEach
-    public void setTrainTicketResponse() {
-        trainTicketResponse = TrainTicketResponse.builder()
+    public void setBusTicketResponse() {
+        busTicketResponse = BusTicketResponse.builder()
+                .seatNumber(12)
+                .arrivalTime(LocalTime.of(12, 35))
+                .timeOfDeparture(LocalTime.of(15, 33))
+                .price(BigDecimal.valueOf(120))
+                .to("Kyiv")
+                .from("Dnipro")
+                .arrivalDay(LocalDate.of(2024, 12, 1))
+                .dayOfDeparture(LocalDate.of(2024, 12, 1))
                 .name("Name")
-                .to(City.KYIV.getName())
-                .from(City.DNIPRO.getName())
-                .dayOfDeparture(LocalDate.of(2025, 2, 15))
-                .arrivalDay(LocalDate.of(2025, 2, 15))
-                .timeOfDeparture(LocalTime.of(10, 54))
-                .arrivalTime(LocalTime.of(15, 32))
-                .price(BigDecimal.valueOf(230))
-                .typeOfTrainClass(TypeOfTrainClass.LUXURY.name())
-                .seatNumber(23)
-                .carNumber(12)
                 .build();
     }
 
     @Test
     public void testValidTrainTicketResponse() {
-        assertEquals(0, getViolation(trainTicketResponse).size());
+        assertEquals(0, getViolation(busTicketResponse).size());
     }
 
     @ParameterizedTest
     @MethodSource("emptyAndNullArguments")
     public void testInvalidName(String name) {
-        trainTicketResponse.setName(name);
+        busTicketResponse.setName(name);
 
-        testInvalidTicketArgs(trainTicketResponse, name,
+        testInvalidTicketArgs(busTicketResponse, name,
                 "Name must be filled in!");
     }
 
     @ParameterizedTest
     @MethodSource("emptyAndNullArguments")
     public void testInvalidCityFrom(String cityFrom) {
-        trainTicketResponse.setFrom(cityFrom);
+        busTicketResponse.setFrom(cityFrom);
 
-        testInvalidTicketArgs(trainTicketResponse, cityFrom,
+        testInvalidTicketArgs(busTicketResponse, cityFrom,
                 "City from must be filled in!");
     }
 
     @ParameterizedTest
     @MethodSource("emptyAndNullArguments")
     public void testInvalidCityTo(String cityTo) {
-        trainTicketResponse.setTo(cityTo);
+        busTicketResponse.setTo(cityTo);
 
-        testInvalidTicketArgs(trainTicketResponse, cityTo,
+        testInvalidTicketArgs(busTicketResponse, cityTo,
                 "City to must be filled in!");
-    }
-
-    @ParameterizedTest
-    @MethodSource("emptyAndNullArguments")
-    public void testInvalidTypeOfTrainClass(String typeOfTrainClass) {
-        trainTicketResponse.setTypeOfTrainClass(typeOfTrainClass);
-
-        testInvalidTicketArgs(trainTicketResponse, typeOfTrainClass,
-                "Type of train class cannot be null!");
     }
 
     private static Stream<String> emptyAndNullArguments() {
@@ -90,50 +77,50 @@ public class TrainTicketResponseTests {
 
     @Test
     public void testInvalidDayOfDeparture() {
-        trainTicketResponse.setDayOfDeparture(null);
+        busTicketResponse.setDayOfDeparture(null);
 
-        testInvalidTicketArgs(trainTicketResponse, null,
+        testInvalidTicketArgs(busTicketResponse, null,
                 "Day of departure must be filled in!");
     }
 
     @Test
     public void testInvalidArrivalDay() {
-        trainTicketResponse.setArrivalDay(null);
+        busTicketResponse.setArrivalDay(null);
 
-        testInvalidTicketArgs(trainTicketResponse, null,
+        testInvalidTicketArgs(busTicketResponse, null,
                 "Arrival day must be filled in!");
     }
 
     @Test
     public void testInvalidTimeOfDeparture() {
-        trainTicketResponse.setTimeOfDeparture(null);
+        busTicketResponse.setTimeOfDeparture(null);
 
-        testInvalidTicketArgs(trainTicketResponse, null,
+        testInvalidTicketArgs(busTicketResponse, null,
                 "Time of departure must be filled in!");
     }
 
     @Test
     public void testInvalidArrivalTime() {
-        trainTicketResponse.setArrivalTime(null);
+        busTicketResponse.setArrivalTime(null);
 
-        testInvalidTicketArgs(trainTicketResponse, null,
+        testInvalidTicketArgs(busTicketResponse, null,
                 "Arrival time must be filled in!");
     }
 
     @Test
     public void testInvalidPriceNull() {
-        trainTicketResponse.setPrice(null);
+        busTicketResponse.setPrice(null);
 
-        testInvalidTicketArgs(trainTicketResponse, null,
+        testInvalidTicketArgs(busTicketResponse, null,
                 "Price cannot be null!");
     }
 
     @ParameterizedTest
     @MethodSource("getInvalidPriceArgs")
     public void testInvalidPriceArgs(BigDecimal price) {
-        trainTicketResponse.setPrice(price);
+        busTicketResponse.setPrice(price);
 
-        testInvalidTicketArgs(trainTicketResponse, price,
+        testInvalidTicketArgs(busTicketResponse, price,
                 "Price of ticket cannot be lower that zero!");
     }
 
@@ -145,23 +132,16 @@ public class TrainTicketResponseTests {
     @ParameterizedTest
     @MethodSource("getInvalidNumberArgs")
     public void testInvalidSeatNumber(int seatNumber) {
-        trainTicketResponse.setSeatNumber(seatNumber);
+        busTicketResponse.setSeatNumber(seatNumber);
 
-        testInvalidTicketArgs(trainTicketResponse, seatNumber,
+        testInvalidTicketArgs(busTicketResponse, seatNumber,
                 "Number of seats cannot be lower that zero!");
-    }
-
-    @ParameterizedTest
-    @MethodSource("getInvalidNumberArgs")
-    public void testInvalidCarNumber(int carNumber) {
-        trainTicketResponse.setCarNumber(carNumber);
-
-        testInvalidTicketArgs(trainTicketResponse, carNumber,
-                "Car number cannot be lower that zero!");
     }
 
     private static Stream<Integer> getInvalidNumberArgs() {
         return Stream.of(-2, -1, -12);
     }
+
+
 
 }

@@ -16,7 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static duikt.practice.otb.resources.controller.ControllerAdvice.asJsonString;
+import static duikt.practice.otb.TestAdvice.asJsonString;
+import static duikt.practice.otb.TestAdvice.forbiddenResult;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -193,14 +194,6 @@ public class TrainTicketControllerTests {
         mockMvc.perform(delete(BASIC_PATH + "/return/{id}", adminId, ticketId))
                 .andExpect(status().isForbidden())
                 .andExpect(forbiddenResult());
-    }
-
-    private ResultMatcher forbiddenResult() {
-        return result -> assertTrue(result
-                .getResponse()
-                .getContentAsString()
-                .contains("\"status\":\"FORBIDDEN\",\"message\"" +
-                        ":\"Access is denied\""));
     }
 
     private ResultMatcher notFoundResult() {

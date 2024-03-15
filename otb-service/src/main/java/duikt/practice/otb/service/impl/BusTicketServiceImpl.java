@@ -1,17 +1,22 @@
 package duikt.practice.otb.service.impl;
 
 import duikt.practice.otb.entity.BusTicket;
-import duikt.practice.otb.entity.TrainTicket;
-import duikt.practice.otb.exception.BookedTicketException;
 import duikt.practice.otb.repository.BusTicketRepository;
-import duikt.practice.otb.repository.TrainTicketRepository;
 import duikt.practice.otb.service.BusTicketService;
 import duikt.practice.otb.service.UserService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.List;
+
+import static duikt.practice.otb.entity.addition.City.stringToEnum;
+import static duikt.practice.otb.service.SortAdvice.getDirectionForSort;
+
+import duikt.practice.otb.exception.BookedTicketException;
+import lombok.extern.slf4j.Slf4j;
+
 @Slf4j
 @AllArgsConstructor
 public class BusTicketServiceImpl implements BusTicketService {
@@ -21,8 +26,34 @@ public class BusTicketServiceImpl implements BusTicketService {
 
     @Override
     public BusTicket getTicketById(Long id) {
-        return busTicketRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Ticket is not found!"));
+        return busTicketRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("Bus ticket not found!"));
+    }
+
+    @Override
+    @Cacheable(value = "sorted_bus_tickets", key = "{#cityFrom, #cityTo}")
+    public List<BusTicket> getSortedTickets(String cityFrom, String cityTo, String direction) {
+        return busTicketRepository
+                .findBusTicketsByFromAndToAndOwnerIsNull(
+                        stringToEnum(cityFrom), stringToEnum(cityTo),
+                        Sort.by(getDirectionForSort(direction),
+                                "dayOfDeparture", "timeOfDeparture",
+                                "arrivalDay", "arrivalTime"));
+    }
+
+    @Override
+    public BusTicket returnBusTicket(Long ownerId, Long ticketId) {
+        BusTicket ticketToReturn = getTicketById(ticketId);
+        ticketToReturn.setOwner(null);
+        busTicketRepository.save(ticketToReturn);
+        return ticketToReturn;
+    }
+
+    @Override
+    public boolean isUserTicketOwner(Long ownerId, Long ticketId) {
+        return busTicketRepository
+                .findBusTicketByOwnerIdAndId(ownerId, ticketId)
+                .isPresent();
     }
 
     @Override
@@ -31,12 +62,6 @@ public class BusTicketServiceImpl implements BusTicketService {
         BusTicket toBuy = getTicketById(id);
         toBuy.setOwner(userService.getUserById(userId));
         return busTicketRepository.save(toBuy);
-    }
-
-    @Override
-    public boolean isUserTicketOwner(Long ownerId, Long id) {
-        return busTicketRepository.findByOwnerIdAndId(ownerId, id)
-                .isPresent();
     }
 
     @Override

@@ -1,6 +1,8 @@
 package duikt.practice.otb.config;
 
+import duikt.practice.otb.mapper.BusTicketMapper;
 import duikt.practice.otb.mapper.UserMapper;
+import duikt.practice.otb.mapper.impl.BusTicketMapperImpl;
 import duikt.practice.otb.mapper.impl.UserMapperImpl;
 import duikt.practice.otb.repository.BusTicketRepository;
 import duikt.practice.otb.repository.TrainTicketRepository;
@@ -37,6 +39,11 @@ public class ResourcesConfig {
     public BusTicketService busTicketService(BusTicketRepository busTicketRepository,
                                              UserService userService) {
         return new BusTicketServiceImpl(busTicketRepository, userService);
+    }
+
+    @Bean
+    public BusTicketMapper busTicketMapper() {
+        return new BusTicketMapperImpl();
     }
 
 }
